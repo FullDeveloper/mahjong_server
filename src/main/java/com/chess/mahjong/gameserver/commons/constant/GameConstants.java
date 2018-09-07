@@ -13,4 +13,13 @@ public class GameConstants {
      */
     public static final String SESSION_PREFIX = "uuid_";
 
+    /**
+     * 出牌操作
+     */
+    public static final Integer CHUPAi_OPTION = 1;
+    /**
+     * 摸牌操作
+     */
+    public static final Integer MOPAI_OPTION = 2;
+
 }

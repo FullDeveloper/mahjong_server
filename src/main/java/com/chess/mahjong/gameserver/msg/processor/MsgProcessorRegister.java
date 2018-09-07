@@ -1,6 +1,7 @@
 package com.chess.mahjong.gameserver.msg.processor;
 
 import com.chess.context.ConnectAPI;
+import com.chess.mahjong.gameserver.msg.processor.chupai.ChuPaiMsgProcessor;
 import com.chess.mahjong.gameserver.msg.processor.createroom.CreateRoomMsgProcssor;
 import com.chess.mahjong.gameserver.msg.processor.joinroom.JoinRoomMsgProcessor;
 import com.chess.mahjong.gameserver.msg.processor.login.LoginMsgProcessor;
@@ -34,7 +35,11 @@ public enum MsgProcessorRegister {
     /**
      * 游戏开始前准备
      */
-    prepareGame(ConnectAPI.PrepareGame_MSG_REQUEST, new PrepareGameMSGProcessor());
+    prepareGame(ConnectAPI.PrepareGame_MSG_REQUEST, new PrepareGameMSGProcessor()),
+    /**
+     * 出牌
+     */
+    chuPai(ConnectAPI.CHUPAI_REQUEST, new ChuPaiMsgProcessor());
 
     private int msgCode;
     private MsgProcessor processor;

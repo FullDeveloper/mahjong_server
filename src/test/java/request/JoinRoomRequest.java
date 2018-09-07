@@ -18,7 +18,7 @@ public class JoinRoomRequest extends BaseSocket {
     @Test
     public void test_JoinRoomRequest() throws IOException, InterruptedException {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("roomId", "300900");
+        jsonObject.put("roomId", "612367");
         login("1111100032");
 
 

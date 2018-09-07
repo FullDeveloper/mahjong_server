@@ -1,6 +1,7 @@
 package request;
 
 import com.chess.context.ConnectAPI;
+import com.chess.mahjong.gameserver.pojo.CardVO;
 import com.chess.mahjong.gameserver.pojo.RoomVO;
 import com.chess.persist.util.JsonUtilTool;
 import org.junit.Test;
@@ -28,7 +29,12 @@ public class CreateRoomRequest extends BaseSocket {
         System.out.println(message);
         String result = sendMessageCustom(message, ConnectAPI.CREATEROOM_REQUEST);
         Thread.sleep(5000);
-        result = invokeSendMessage(message, ConnectAPI.PrepareGame_MSG_REQUEST);
+        result = sendMessageCustom(message, ConnectAPI.PrepareGame_MSG_REQUEST);
+
+        Thread.sleep(70000);
+        CardVO cardVO = new CardVO();
+        cardVO.setCardPoint(1);
+        result = invokeSendMessage(JsonUtilTool.toJson(cardVO), ConnectAPI.CHUPAI_REQUEST);
     }
 
 }

@@ -62,21 +62,21 @@ public class ConnectAPI {
     /**
      * 用户加入房间响应
      */
-    public static int JOIN_ROOM_RESPONSE  = 0x000004;
+    public static int JOIN_ROOM_RESPONSE = 0x000004;
     /**
      * 用户加入房间请求
-      */
-    public static int JOIN_ROOM_REQUEST  = 0x000003;
+     */
+    public static int JOIN_ROOM_REQUEST = 0x000003;
 
     /**
      * 用户离线通知
      */
-    public static int OFF_LINE_RESPONSE  = 0x000015;
+    public static int OFF_LINE_RESPONSE = 0x000015;
 
     /**
      * 用户请求准备游戏
      */
-    public static int  PrepareGame_MSG_REQUEST = 0x333333;
+    public static int PrepareGame_MSG_REQUEST = 0x333333;
     public static int PrepareGame_MSG_RESPONSE = 0x444444;
 
     /**
@@ -91,5 +91,29 @@ public class ConnectAPI {
      * 开始游戏
      */
     public static int START_GAME_RESPONSE = 0x00012;
+
+
+    /**
+     * 出牌操作
+     */
+    public static int CHUPAI_REQUEST = 0x100001;
+    public static int CHUPAI_RESPONSE = 0x100002;
+
+    /**
+     * 有吃碰杠胡需要操作的返回信息/一个房间次数用完之后返回全局信息
+     */
+    public static int RETURN_INFO_RESPONSE = 0x100000;
+
+
+    /**
+     * 摸牌
+     */
+    public static int PICKCARD_REQUEST = 0x100003;
+    public static int PICKCARD_RESPONSE = 0x100004;
+
+    /**
+     * 其它人摸牌了
+     */
+    public static int OTHER_PICKCARD_RESPONSE = 0x100014;
 
 }
