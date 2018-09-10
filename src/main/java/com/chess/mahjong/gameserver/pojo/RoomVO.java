@@ -107,6 +107,31 @@ public class RoomVO {
         this.endStatistics = endStatistics;
     }
 
+    /**
+     * 整个房间统计每一局游戏 杠，胡的总次数
+     * @param uuid
+     * @param type
+     * @param roundScore
+     * @return
+     */
+    public Map<String, Map<String, Integer>> updateEndStatistics(String uuid , String type ,int roundScore) {
+        if(endStatistics.get(uuid) == null){
+            Map<String,Integer > map = new HashMap<String , Integer>();
+            map.put(type,roundScore);
+            endStatistics.put(uuid, map);
+        }
+        else{
+            if(endStatistics.get(uuid).get(type) != null){
+                endStatistics.get(uuid).put(type, endStatistics.get(uuid).get(type)+roundScore);
+            }
+            else{
+                endStatistics.get(uuid).put(type, roundScore);
+            }
+        }
+
+        return endStatistics;
+    }
+
     @Override
     public RoomVO clone() {
         RoomVO result = new RoomVO();

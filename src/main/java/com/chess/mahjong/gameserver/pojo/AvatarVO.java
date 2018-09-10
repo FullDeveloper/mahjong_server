@@ -67,6 +67,16 @@ public class AvatarVO {
      */
     private boolean hasMopaiChupai = false;
 
+    /**
+     * 移除最后一张牌
+     *
+     */
+    public void removeLastChuPais() {
+        int inde = chuPais.size();
+        chuPais.remove(inde - 1);
+    }
+
+
     public boolean isHasMopaiChupai() {
         return hasMopaiChupai;
     }

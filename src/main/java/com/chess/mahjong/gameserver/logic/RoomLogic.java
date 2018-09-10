@@ -11,6 +11,7 @@ import com.chess.mahjong.gameserver.msg.response.login.OtherBackLoginResponse;
 import com.chess.mahjong.gameserver.msg.response.startgame.PrepareGameResponse;
 import com.chess.mahjong.gameserver.msg.response.startgame.StartGameResponse;
 import com.chess.mahjong.gameserver.pojo.AvatarVO;
+import com.chess.mahjong.gameserver.pojo.CardVO;
 import com.chess.mahjong.gameserver.pojo.HuReturnObjectVO;
 import com.chess.mahjong.gameserver.pojo.RoomVO;
 import com.chess.mybatis.entity.Account;
@@ -285,6 +286,26 @@ public class RoomLogic {
      */
     public void chuCard(Avatar avatar, int cardPoint) {
         playCardsLogic.putOffCard(avatar, cardPoint);
+    }
+
+    /**
+     * 玩家选择放弃操作
+     *
+     * @param avatar
+     * @param //1-胡，2-杠，3-碰，4-吃
+     */
+    public void gaveUpAction(Avatar avatar) {
+        playCardsLogic.gaveUpAction(avatar);
+    }
+
+    /**
+     * 吃牌
+     *
+     * @param avatar
+     * @return
+     */
+    public boolean chiCard(Avatar avatar, CardVO cardVo) {
+        return playCardsLogic.chiCard(avatar, cardVo);
     }
 
     public void setDissolveCount(int dissolveCount) {

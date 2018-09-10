@@ -100,8 +100,40 @@ public class Avatar {
      */
     private Map<Integer, String> resultRelation = new HashMap<>();
 
+    /**
+     * 存储杠和胡的信息
+     * @param i 操作类型
+     * @param str
+     */
+    public  void putResultRelation(Integer i , String str) {
+        synchronized(resultRelation){
+            if(resultRelation.get(i) == null){
+                resultRelation.put(i, str);
+            }
+            else{
+                resultRelation.put(i, resultRelation.get(i)+","+str);
+            }
+        }
+    }
+
     public boolean qiangHu = true;
 
+    /**
+     * 请求碰
+     */
+    public boolean pengQuest = false;
+    /**
+     * 请求杠
+     */
+    public boolean gangQuest = false;
+    /**
+     * 请求胡
+     */
+    public boolean huQuest = false;
+    /**
+     * 请求吃
+     */
+    public boolean chiQuest = false;
 
     /**
      * 当前玩家能否吃
@@ -213,6 +245,13 @@ public class Avatar {
         return flag;
     }
 
+    public void setQuestToFalse(){
+        huQuest = false;
+        gangQuest = false;
+        pengQuest = false;
+        chiQuest = false;
+    }
+
     /**
      * 得到牌组的一维数组。用来判断是否胡牌和听牌用
      * @return
@@ -221,12 +260,29 @@ public class Avatar {
         return avatarVO.getPaiArray();
     }
 
+    /**
+     * 设置牌的状态
+     * @param cardIndex
+     * @param type;//碰 1  杠2  胡3  吃4
+     */
+    public void setCardListStatus(int cardIndex,int type){
+        avatarVO.getPaiArray()[1][cardIndex] = type;
+    }
+
     public RoomVO getRoomVO() {
         return roomVO;
     }
 
     public GameSession getSession() {
         return session;
+    }
+
+    public Map<Integer, String> getResultRelation() {
+        return resultRelation;
+    }
+
+    public void setResultRelation(Map<Integer, String> resultRelation) {
+        this.resultRelation = resultRelation;
     }
 
     public void setSession(GameSession session) {

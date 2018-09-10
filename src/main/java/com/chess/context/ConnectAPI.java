@@ -116,4 +116,16 @@ public class ConnectAPI {
      */
     public static int OTHER_PICKCARD_RESPONSE = 0x100014;
 
+    /**
+     * 吃牌
+     */
+    public static int CHIPAI_REQUEST = 0x100011;
+    public static int CHIPAI_RESPONSE = 0x100012;
+
+    /**
+     * 杠牌
+     */
+    public static int GANGPAI_REQUEST = 0x100007;
+    public static int GANGPAI_RESPONSE = 0x100008;
+    public static int OTHER_GANGPAI_NOICE = 0x10a008;
 }
