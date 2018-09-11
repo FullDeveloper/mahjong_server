@@ -15,7 +15,7 @@ public class ErrorCode {
     /**
      * 处理失败 错误响应
      */
-    public static final Integer ERROR_CODE = 1;
+    public static final Integer ERROR_CODE = -1;
 
     public static String Error_000002 = "此帐号还没有登录";
     public static String Error_000005 = "房間是空的";

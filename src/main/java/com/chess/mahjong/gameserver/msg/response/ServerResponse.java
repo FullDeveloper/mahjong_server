@@ -1,5 +1,6 @@
 package com.chess.mahjong.gameserver.msg.response;
 
+import com.chess.mahjong.gameserver.commons.code.ErrorCode;
 import com.chess.network.codec.MsgProtocol;
 import com.chess.network.codec.message.MsgBodyWrap;
 import com.chess.network.codec.message.ResponseMsg;
@@ -29,23 +30,31 @@ public class ServerResponse implements ResponseMsg {
         setMsgCode(msgCode);
     }
 
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Override
     public void setMsgCode(int code) {
-
+        msgCode = code;
     }
 
     @Override
     public IoBuffer entireMsg() {
         byte[] body = output.toByteArray();
         /* 标志 byte 长度short */
+        // 协议标记的长度 1 + 数据长度的字节长度 4 + 操作码的字节长度 4 + 内容的长度  + 4(可以当做是状态的字节长度)
         int length = MsgProtocol.FLAG_SIZE + MsgProtocol.LENGTH_SIZE + MsgProtocol.MSG_CODE_SIZE + body.length + 4;
         IoBuffer buf = IoBuffer.allocate(length);
         //flag
         buf.put(MsgProtocol.DEFALUT_FLAG);
         //数据长度
         buf.putInt(length);
+        // 响应码
         buf.putInt(msgCode);
+        // 状态 1：成功 -1：失败
         buf.putInt(status);
+
         buf.put(body);
         buf.flip();
         return buf;
@@ -53,14 +62,14 @@ public class ServerResponse implements ResponseMsg {
 
     @Override
     public void release() {
-
+        if (output != null) {
+            output.close();
+            output = null;
+        }
+        output = null;
     }
 
     public void setOutput(MsgBodyWrap output) {
         this.output = output;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 }
