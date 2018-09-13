@@ -308,6 +308,11 @@ public class RoomLogic {
         return playCardsLogic.chiCard(avatar, cardVo);
     }
 
+    public boolean pengCard(Avatar avatar, int cardIndex) {
+
+        return playCardsLogic.pengCard( avatar, cardIndex);
+    }
+
     public void setDissolveCount(int dissolveCount) {
         this.dissolveCount = dissolveCount;
     }

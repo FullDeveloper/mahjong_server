@@ -57,4 +57,9 @@ public class GameConstants {
      */
     public static final String AN_GANG = "5";
 
+    /**
+     * 回访记录 碰牌类型
+     */
+    public static final Integer RECORD_TYPE_PENG = 4;
+
 }

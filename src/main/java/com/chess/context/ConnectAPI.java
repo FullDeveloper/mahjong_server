@@ -128,4 +128,11 @@ public class ConnectAPI {
     public static int GANGPAI_REQUEST = 0x100007;
     public static int GANGPAI_RESPONSE = 0x100008;
     public static int OTHER_GANGPAI_NOICE = 0x10a008;
+
+    /**
+     * 碰牌
+     */
+    public static int PENGPAI_REQUEST = 0x100005;
+    public static int PENGPAI_RESPONSE = 0x100006;
+
 }

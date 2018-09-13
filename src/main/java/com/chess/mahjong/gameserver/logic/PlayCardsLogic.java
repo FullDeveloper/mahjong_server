@@ -10,6 +10,7 @@ import com.chess.mahjong.gameserver.msg.response.common.ReturnInfoResponse;
 import com.chess.mahjong.gameserver.msg.response.gang.GangResponse;
 import com.chess.mahjong.gameserver.msg.response.gang.OtherGangResponse;
 import com.chess.mahjong.gameserver.msg.response.hu.HuPaiResponse;
+import com.chess.mahjong.gameserver.msg.response.peng.PengResponse;
 import com.chess.mahjong.gameserver.msg.response.pickcard.OtherPickCardResponse;
 import com.chess.mahjong.gameserver.msg.response.pickcard.PickCardResponse;
 import com.chess.mahjong.gameserver.pojo.*;
@@ -770,6 +771,88 @@ public class PlayCardsLogic {
                 e.printStackTrace();
             }
         }
+        return flag;
+    }
+
+
+    /**
+     * 碰牌
+     *
+     * @param avatar
+     * @return
+     */
+    public boolean pengCard(Avatar avatar, int cardIndex) {
+        boolean flag = false;
+        //这里可能是自己能胡能碰能杠 但是选择碰
+        if (cardIndex != putOffCardPoint) {
+            System.out.println("传入错误的牌:传入的牌" + cardIndex + "---上一把出牌：" + putOffCardPoint);
+        }
+
+        if (cardIndex < 0) {
+            try {
+                avatar.getSession().sendMsg(new ErrorResponse(ErrorCode.Error_000019));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        // 只有这种情况下才可以进行操作
+        if ((penAvatar.size() >= 1 && huAvatar.size() == 0) || (huAvatar.contains(avatar) && huAvatar.size() == 1 && penAvatar.size() == 1)) {
+
+            // 修改出牌 摸牌状态
+            avatar.avatarVO.setHasMopaiChupai(true);
+
+            // 选择碰牌的话 如果胡牌里面该玩家可以胡 则将该玩家从胡牌集合中剔除
+            if (huAvatar.contains(avatar)) {
+                huAvatar.remove(avatar);
+            }
+
+            // 从杠牌中剔除
+            if (gangAvatar.contains(avatar)) {
+                gangAvatar.remove(avatar);
+            }
+
+            if (penAvatar.contains(avatar)) {
+                // 记录回放记录
+                PlayRecordOperation(playerList.indexOf(avatar), cardIndex, GameConstants.RECORD_TYPE_PENG, -1, null, null);
+                // 把出的牌从出牌玩家的chupais中移除掉
+                playerList.get(curAvatarIndex).avatarVO.removeLastChuPais();
+
+                penAvatar.remove(avatar);
+
+                // 更新牌组
+                flag = avatar.putCardInList(cardIndex);
+                // 更新该玩家该牌的状态为碰牌
+                avatar.setCardListStatus(cardIndex, GameConstants.PENG_PAI);
+                //把各个玩家碰的牌记录到缓存中去,牌的index
+                avatar.avatarVO.getHuReturnObjectVO().updateTotalInfo("peng", cardIndex + "");
+
+                clearArrayAndSetQuest();
+                for (int i = 0; i < playerList.size(); i++) {
+                    if (playerList.get(i).getUuId().equals(avatar.getUuId())) {
+                        //碰了的牌放入到avatar的resultRelation  Map中
+                        playerList.get(i).putResultRelation(GameConstants.PENG_PAI, cardIndex + "");
+                        playerList.get(i).avatarVO.getPaiArray()[1][cardIndex] = GameConstants.PENG_PAI;
+                        avatar.getPaiArray()[1][cardIndex] = GameConstants.PENG_PAI;
+                    }
+                    playerList.get(i).getSession().sendMsg(new PengResponse(ErrorCode.SUCCESS_CODE, cardIndex, playerList.indexOf(avatar)));
+                }
+                //更新摸牌人信息 2016-8-3
+                pickAvatarIndex = playerList.indexOf(avatar);
+                curAvatarIndex = playerList.indexOf(avatar);
+                //断线重连判断该自己出牌
+                currentCardPoint = -2;
+            }
+
+        } else {
+            if(penAvatar.size() > 0) {
+                for (Avatar ava : penAvatar) {
+                    ava.pengQuest = true;
+                }
+            }
+        }
+
         return flag;
     }
 
