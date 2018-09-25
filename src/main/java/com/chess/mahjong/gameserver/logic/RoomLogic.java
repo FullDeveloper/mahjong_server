@@ -16,6 +16,8 @@ import com.chess.mahjong.gameserver.pojo.HuReturnObjectVO;
 import com.chess.mahjong.gameserver.pojo.RoomVO;
 import com.chess.mybatis.entity.Account;
 import com.chess.mybatis.service.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +30,8 @@ import java.util.List;
  * Description:
  */
 public class RoomLogic {
+
+    private Logger logger = LoggerFactory.getLogger(RoomLogic.class);
 
     private RoomVO roomVO;
 
@@ -166,6 +170,7 @@ public class RoomLogic {
         for (int i = 0; i < playerList.size(); i++) {
             // 通知房间内其他玩家该玩家上限 将该玩家的信息告诉他们
             playerList.get(i).getSession().sendMsg(new JoinRoomNotice(ErrorCode.SUCCESS_CODE, avatarVO));
+            logger.info("有其他用户加入房间，通知当前用户==>" + playerList.get(i).getUuId());
         }
     }
 
@@ -186,6 +191,7 @@ public class RoomLogic {
                 int avatarIndex = playerList.indexOf(avatar);
                 //成功则返回
                 for (Avatar ava : playerList) {
+                    logger.info("有玩家准备,通知玩家" + ava.getUuId() + "，用户==>" + avatar.getUuId() + "准备游戏!");
                     ava.getSession().sendMsg(new PrepareGameResponse(ErrorCode.SUCCESS_CODE, avatarIndex));
                 }
 
@@ -281,6 +287,7 @@ public class RoomLogic {
 
     /**
      * 出牌
+     *
      * @param avatar
      * @param cardPoint
      */
@@ -310,7 +317,7 @@ public class RoomLogic {
 
     public boolean pengCard(Avatar avatar, int cardIndex) {
 
-        return playCardsLogic.pengCard( avatar, cardIndex);
+        return playCardsLogic.pengCard(avatar, cardIndex);
     }
 
     public void setDissolveCount(int dissolveCount) {
@@ -320,7 +327,6 @@ public class RoomLogic {
     public void setDissolve(boolean dissolve) {
         this.dissolve = dissolve;
     }
-
 
 
 }

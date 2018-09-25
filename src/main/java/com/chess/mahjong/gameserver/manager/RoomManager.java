@@ -2,8 +2,11 @@ package com.chess.mahjong.gameserver.manager;
 
 import com.chess.mahjong.gameserver.Avatar;
 import com.chess.mahjong.gameserver.logic.RoomLogic;
+import com.chess.mahjong.gameserver.pojo.AvatarVO;
 import com.chess.mahjong.gameserver.pojo.RoomVO;
 import com.chess.mybatis.service.RoomInfoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +18,9 @@ import java.util.Map;
  * Description:
  */
 public class RoomManager {
+
+    private Logger logger = LoggerFactory.getLogger(RoomManager.class);
+
 
     private static RoomManager roomManager;
 
@@ -65,6 +71,8 @@ public class RoomManager {
         roomCount++;
         System.out.println("(创建新房间成功)当前在线房间数量：" + roomCount + ":" + roomList.size());
         addUuidAndRoomId(avatar.avatarVO.getAccount().getUuid(), roomVO.getRoomId());
+        logger.info("用户-->" + avatar.getUuId() + "创建房间成功,房间号为:" + roomVO.getRoomId());
+
     }
 
 
